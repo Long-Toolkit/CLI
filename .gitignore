@@ -15,3 +15,6 @@ tmp/command_palette_history.json
 # Editor
 .idea/
 .DS_Store
+
+# Local agent instructions
+AGENTS.md
