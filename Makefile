@@ -1,4 +1,4 @@
-BINARY ?= ldt
+BINARY ?= long-toolkit
 INSTALL_DIR ?= $(HOME)/.local/bin
 BASH_RC ?= $(HOME)/.bashrc
 FISH_CONFIG ?= $(HOME)/.config/fish/config.fish
