@@ -75,7 +75,7 @@ Then run it from any directory:
 long-toolkit
 ```
 
-The CLI drives the Python toolkit through a bridge. Run it from a project directory where the Python package is installed, for example after `uv add long-toolkit` (with `uv`, the state-of-the-art Python package manager).
+The CLI drives the Python toolkit through a bridge and requires Python `3.10` only. Run it from a Python 3.10 project directory where the Python package is installed, for example after `uv add long-toolkit` (with `uv`, the state-of-the-art Python package manager).
 
 ## <img src="public/icons/lucide/command.svg" width="32" alt="" /> Novel Command Palette
 
