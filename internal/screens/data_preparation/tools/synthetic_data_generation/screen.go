@@ -3,10 +3,10 @@ package syntheticdatageneration
 import (
 	"strings"
 
-	"ldt-toolkit-cli/internal/screens/data_preparation/support/schema"
-	"ldt-toolkit-cli/internal/screens/data_preparation/tools/spec"
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/theme"
+	"long-toolkit-cli/internal/screens/data_preparation/support/schema"
+	"long-toolkit-cli/internal/screens/data_preparation/tools/spec"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 func Build(tool spec.Tool) spec.FlowSpec {

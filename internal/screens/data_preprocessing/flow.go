@@ -5,10 +5,10 @@ import (
 	"strings"
 	"time"
 
-	"ldt-toolkit-cli/internal/screens/data_preprocessing/support/ui"
-	toolsmodule "ldt-toolkit-cli/internal/screens/data_preprocessing/tools"
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/theme"
+	"long-toolkit-cli/internal/screens/data_preprocessing/support/ui"
+	toolsmodule "long-toolkit-cli/internal/screens/data_preprocessing/tools"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 func runDataPreprocessingToolFlow(tool ToolConfig, listOnly bool) error {

@@ -12,7 +12,7 @@ import (
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/lipgloss"
 
-	"ldt-toolkit-cli/internal/shared/theme"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 var ErrPathPickerCancelled = errors.New("path picker cancelled")
@@ -76,7 +76,7 @@ func PickPathWithFilePicker(
 				FileAllowed(true)
 		}
 
-		form := NewLDTForm(
+		form := NewToolkitForm(
 			huh.NewGroup(picker),
 		)
 		if err := form.Run(); err != nil {

@@ -3,7 +3,7 @@ package config
 import (
 	"strings"
 
-	"ldt-toolkit-cli/internal/shared/model"
+	"long-toolkit-cli/internal/shared/model"
 )
 
 func Configure() error {
@@ -41,11 +41,6 @@ func Tools() []ToolConfig {
 	return cfg.Tools
 }
 
-func Presets() []PresetConfig {
-	cfg := CurrentConfig()
-	return cfg.Presets
-}
-
 func ToolByID(id string) (ToolConfig, bool) {
 	needle := strings.TrimSpace(id)
 	for _, tool := range currentConfig.Tools {
@@ -63,16 +58,6 @@ func ToolFromPath(path []string) (ToolConfig, bool) {
 		}
 	}
 	return ToolConfig{}, false
-}
-
-func PresetByID(id string) (PresetConfig, bool) {
-	needle := strings.TrimSpace(id)
-	for _, preset := range currentConfig.Presets {
-		if strings.EqualFold(preset.ID, needle) {
-			return preset, true
-		}
-	}
-	return PresetConfig{}, false
 }
 
 func containsToken(path []string, token string) bool {

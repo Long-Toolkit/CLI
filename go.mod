@@ -1,4 +1,4 @@
-module ldt-toolkit-cli
+module long-toolkit-cli
 
 go 1.25.0
 

@@ -18,7 +18,7 @@ type historyStore struct {
 }
 
 func newHistoryStore(projectRootFinder func() (string, error)) historyStore {
-	path := filepath.Join(os.TempDir(), "ldt_toolkit_command_palette_history.json")
+	path := filepath.Join(os.TempDir(), "long_toolkit_command_palette_history.json")
 	if projectRootFinder != nil {
 		if root, err := projectRootFinder(); err == nil {
 			path = filepath.Join(root, "tmp", "command_palette_history.json")

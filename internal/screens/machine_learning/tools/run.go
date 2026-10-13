@@ -7,11 +7,11 @@ import (
 	"strings"
 	"time"
 
-	"ldt-toolkit-cli/internal/screens/machine_learning/support/schema"
-	"ldt-toolkit-cli/internal/screens/machine_learning/support/ui"
-	"ldt-toolkit-cli/internal/screens/machine_learning/tools/prompting"
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/theme"
+	"long-toolkit-cli/internal/screens/machine_learning/support/schema"
+	"long-toolkit-cli/internal/screens/machine_learning/support/ui"
+	"long-toolkit-cli/internal/screens/machine_learning/tools/prompting"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 type toolCatalog struct {
@@ -42,8 +42,7 @@ var curatedMetricOptions = []schema.Option{
 	{Label: "geometric mean", Value: "geometric_mean", Description: "Geometric mean of class recall."},
 }
 
-var validationSplitOptions = []schema.Option{
-	{Label: "auto", Value: "auto", Description: "Cross-validation only."},
+var holdoutSplitOptions = []schema.Option{
 	{Label: "90/10", Value: "90/10", Description: "90% train, 10% validation."},
 	{Label: "80/20", Value: "80/20", Description: "80% train, 20% validation."},
 	{Label: "70/30", Value: "70/30", Description: "70% train, 30% validation."},
@@ -269,10 +268,10 @@ func enrichParameters(
 			case "metric_keys":
 				parameter.Options = append([]schema.Option(nil), curatedMetricOptions...)
 				parameter.Hint = "Tick one or more metrics. Example: f1_macro + auroc + geometric_mean."
-			case "validation_split":
-				parameter.Options = append([]schema.Option(nil), validationSplitOptions...)
-				parameter.Default = "auto"
-				parameter.Hint = "Leave as auto for CV-only. Or use 70/30 where 70% trains and 30% validates (also accepts 0.3)."
+			case "holdout_split":
+				parameter.Options = append([]schema.Option(nil), holdoutSplitOptions...)
+				parameter.Default = "80/20"
+				parameter.Hint = "Use 70/30 for 70% train and 30% validation (also accepts 0.3)."
 			case "excluded_estimators":
 				parameter.Label = "Include estimators"
 				parameter.Options = estimatorOptions(estimators)

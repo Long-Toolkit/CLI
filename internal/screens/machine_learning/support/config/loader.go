@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	toolkitconfig "ldt-toolkit-cli/config"
-	"ldt-toolkit-cli/internal/shared/common"
+	toolkitconfig "long-toolkit-cli/config"
+	"long-toolkit-cli/internal/shared/common"
 )
 
 func loadConfig() (Config, error) {
@@ -34,17 +34,8 @@ func loadConfig() (Config, error) {
 	if value := strings.TrimSpace(overrideConfig.RootSummary); value != "" {
 		merged.RootSummary = value
 	}
-	if value := strings.TrimSpace(overrideConfig.ToolsSummary); value != "" {
-		merged.ToolsSummary = value
-	}
-	if value := strings.TrimSpace(overrideConfig.PresetsSummary); value != "" {
-		merged.PresetsSummary = value
-	}
 	if len(overrideConfig.Tools) > 0 {
 		merged.Tools = overrideConfig.Tools
-	}
-	if len(overrideConfig.Presets) > 0 {
-		merged.Presets = overrideConfig.Presets
 	}
 
 	if len(merged.Tools) == 0 {
@@ -124,7 +115,6 @@ func decodeConfig(raw []byte, source string) (Config, error) {
 	}
 
 	decoded.Tools = sanitiseTools(decoded.Tools)
-	decoded.Presets = sanitisePresets(decoded.Presets)
 	if len(decoded.Tools) == 0 {
 		return Config{}, errors.New("machine learning config produced zero tools; keep at least one tool")
 	}
@@ -189,42 +179,6 @@ func sanitiseTools(tools []ToolConfig) []ToolConfig {
 			RunOperation:     runOperation,
 			ListCommand:      strings.TrimSpace(tool.ListCommand),
 			Status:           status,
-		})
-		seen[id] = struct{}{}
-	}
-	return cleaned
-}
-
-func sanitisePresets(presets []PresetConfig) []PresetConfig {
-	cleaned := make([]PresetConfig, 0, len(presets))
-	seen := make(map[string]struct{}, len(presets))
-	for _, preset := range presets {
-		id := strings.TrimSpace(preset.ID)
-		if id == "" {
-			continue
-		}
-		if _, exists := seen[id]; exists {
-			continue
-		}
-
-		name := strings.TrimSpace(preset.Name)
-		if name == "" {
-			name = "Unnamed preset"
-		}
-		description := strings.TrimSpace(preset.Description)
-		if description == "" {
-			description = name
-		}
-		status := strings.TrimSpace(preset.Status)
-		if status == "" {
-			status = "incoming"
-		}
-
-		cleaned = append(cleaned, PresetConfig{
-			ID:          id,
-			Name:        name,
-			Description: description,
-			Status:      status,
 		})
 		seen[id] = struct{}{}
 	}

@@ -1,14 +1,12 @@
 {
-  "root_summary": "Choose between machine-learning tools and reproducibility presets.",
-  "tools_summary": "Main machine-learning tools. Select one to configure and run.",
-  "presets_summary": "Browse reproducibility presets for machine learning.",
+  "root_summary": "Benchmark many estimators under one shared protocol, or train one. Select one to configure and run.",
   "tools": [
     {
       "id": "standard_machine_learning",
       "name": "Standard Machine Learning",
-      "description": "Train and benchmark cross-sectional estimators for trajectory-based datasets.",
-      "node_summary": "Run standard (cross-sectional) machine-learning estimators, list estimators/metrics, and generate reproducible artifacts.",
-      "subtitle": "Run standard ML workflows on cross-sectional trajectory datasets. Press Esc to exit.",
+      "description": "Train and benchmark cross-sectional estimators on longitudinal datasets flattened to a cross-sectional view.",
+      "node_summary": "Run standard (cross-sectional) machine-learning estimators, list estimators/metrics, and generate reproducible artefacts.",
+      "subtitle": "Run standard ML workflows on cross-sectional datasets. Press Esc to exit.",
       "table_title": "Standard Machine Learning",
       "selection_title": "Standard machine learning action",
       "catalog_operation": "machine_learning.standard_machine_learning.catalog",
@@ -62,26 +60,6 @@
       "catalog_operation": "machine_learning.bench_standard_and_longitudinal_ml.catalog",
       "run_operation": "machine_learning.bench_standard_and_longitudinal_ml.run",
       "status": "available"
-    },
-    {
-      "id": "shap_analysis",
-      "name": "SHAP Analysis",
-      "description": "Generate SHAP explainability figures and feature-importance artifacts.",
-      "node_summary": "Run SHAP explainability on a saved model artifact and export report/plot assets.",
-      "subtitle": "Generate SHAP explainability artifacts from a saved model and dataset. Press Esc to exit.",
-      "table_title": "SHAP Analysis",
-      "selection_title": "SHAP analysis action",
-      "catalog_operation": "machine_learning.shap_analysis.catalog",
-      "run_operation": "machine_learning.shap_analysis.run",
-      "status": "available"
-    }
-  ],
-  "presets": [
-    {
-      "id": "model_mcs_by_leap",
-      "name": "Model MCS by LEAP",
-      "description": "(incoming) Reproduce LEAP machine-learning experiments for the Millennium Cohort Study.",
-      "status": "incoming"
     }
   ]
 }

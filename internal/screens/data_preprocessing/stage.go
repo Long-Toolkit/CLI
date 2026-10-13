@@ -2,7 +2,7 @@ package datapp
 
 import "errors"
 
-const usageCommandPrefix = "ldt-toolkit"
+const usageCommandPrefix = "long-toolkit"
 
 type bridgeExecutor func(operation string, params map[string]any) (map[string]any, error)
 

@@ -1,0 +1,16 @@
+{
+  "root_summary": "Explain a saved model, e.g., the best estimator of a benchmark, with SHAP values. Select one to run.",
+  "tools": [
+    {
+      "id": "shap_analysis",
+      "name": "SHAP Analysis",
+      "description": "Explain a saved model with SHAP values and export feature-importance figures and artefacts.",
+      "node_summary": "Run SHAP analysis on a saved model artefact, e.g., the best estimator of a benchmark, and export report and plot assets.",
+      "subtitle": "Generate SHAP artefacts from a saved model and dataset. Press Esc to exit.",
+      "table_title": "SHAP Analysis",
+      "selection_title": "SHAP analysis action",
+      "catalog_operation": "explainability.shap_analysis.catalog",
+      "run_operation": "explainability.shap_analysis.run"
+    }
+  ]
+}

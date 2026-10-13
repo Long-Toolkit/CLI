@@ -8,7 +8,7 @@ import (
 
 	"golang.org/x/term"
 
-	"ldt-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/components"
 )
 
 func IsGoNativeAction(path []string) bool {
@@ -16,7 +16,7 @@ func IsGoNativeAction(path []string) bool {
 		return false
 	}
 	switch path[0] {
-	case "list_authors", "list_inspiration_from", "toolkit_tutorial":
+	case "list_authors", "motivation", "toolkit_tutorial":
 		return true
 	default:
 		return false
@@ -55,14 +55,29 @@ func markdownForLabelledEntries(entries []LabelledEntry) string {
 	return strings.Join(lines, "\n")
 }
 
-func RunConfiguredInspirations() error {
-	markdown := markdownForLabelledEntries(currentHomeConfig.Inspirations)
+func RunConfiguredMotivation() error {
+	markdown := markdownForMotivation(currentHomeConfig.Motivation)
 	if !term.IsTerminal(int(os.Stdout.Fd())) || !term.IsTerminal(int(os.Stdin.Fd())) {
 		components.PrintBlankLine()
 		components.PrintLine(markdown)
 		return nil
 	}
-	return components.ShowMarkdownDocument("Inspiration From", markdown)
+	return components.ShowMarkdownDocument("Motivation", markdown)
+}
+
+func markdownForMotivation(motivation Motivation) string {
+	if motivation.Quote == "" {
+		return "No motivation configured."
+	}
+	lines := []string{"> \u201c" + motivation.Quote + "\u201d"}
+	if motivation.Attribution != "" {
+		lines = append(lines, "", "_"+motivation.Attribution+"_")
+	}
+	if motivation.ReadMore != "" {
+		lines = append(lines, "", "Read more: "+linkifyURLs(motivation.ReadMore))
+	}
+	lines = append(lines, "", "_Scroll with mouse wheel or arrow keys. Press `q` to close._")
+	return strings.Join(lines, "\n")
 }
 
 func RunConfiguredTutorial() error {
@@ -72,12 +87,12 @@ func RunConfiguredTutorial() error {
 		components.PrintLine(markdown)
 		return nil
 	}
-	return components.ShowMarkdownDocument("LDT Toolkit Tutorial", markdown)
+	return components.ShowMarkdownDocument("Long-Toolkit Tutorial", markdown)
 }
 
 func tutorialMarkdownFromConfig(steps []TutorialStep) string {
 	lines := []string{
-		"Stage-by-stage guide for running Longitudinal Depression Toolkit workflows.",
+		"Stage-by-stage guide for running Long-Toolkit workflows.",
 		"",
 	}
 

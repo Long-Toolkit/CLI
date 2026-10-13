@@ -1,32 +1,6 @@
 {
-  "root_summary": "Choose between preprocessing tools and reproducibility presets.",
-  "tools_summary": "Main data preprocessing tools. Select one to configure and run.",
-  "presets_summary": "Browse reproducibility presets for data preprocessing.",
+  "root_summary": "Data preprocessing tools. Select one to configure and run.",
   "tools": [
-    {
-      "id": "build_trajectories",
-      "name": "Build Trajectories",
-      "description": "Build longitudinal depressive symptoms trajectories from scratch or from saved model states.",
-      "node_summary": "Build subject-level trajectory assignments using trajectory modelling techniques.",
-      "subtitle": "Build trajectories for longitudinal depressive symptoms datasets. Press Esc to exit.",
-      "table_title": "Build Trajectories",
-      "selection_title": "Build trajectories action",
-      "catalog_operation": "data_preprocessing.build_trajectories.catalog",
-      "run_operation": "data_preprocessing.build_trajectories.run",
-      "status": "available"
-    },
-    {
-      "id": "combine_dataset_with_trajectories",
-      "name": "Combine Dataset with Trajectories",
-      "description": "Merge trajectory assignments with original datasets into a single modelling table.",
-      "node_summary": "Combine baseline/longitudinal datasets with trajectory labels and optional posterior columns.",
-      "subtitle": "Combine trajectory assignments with source datasets. Press Esc to exit.",
-      "table_title": "Combine Dataset with Trajectories",
-      "selection_title": "Dataset combination action",
-      "catalog_operation": "data_preprocessing.combine_dataset_with_trajectories.catalog",
-      "run_operation": "data_preprocessing.combine_dataset_with_trajectories.run",
-      "status": "available"
-    },
     {
       "id": "clean_dataset",
       "name": "Clean Dataset",
@@ -91,7 +65,7 @@
       "id": "remove_columns",
       "name": "Remove Columns",
       "description": "Drop selected columns from a CSV and write a new CSV.",
-      "node_summary": "Remove one or more columns from a tabular dataset while validating column names and output safety.",
+      "node_summary": "Remove one or more columns from a tabular dataset whilst validating column names and output safety.",
       "subtitle": "Drop selected columns from a CSV dataset with explicit input and output paths. Press Esc to exit.",
       "table_title": "Remove Columns",
       "selection_title": "Remove columns technique",
@@ -123,26 +97,6 @@
       "catalog_operation": "data_preprocessing.pivot_long_to_wide.catalog",
       "run_operation": "data_preprocessing.pivot_long_to_wide.run",
       "status": "available"
-    },
-    {
-      "id": "trajectories_viz",
-      "name": "Trajectories Viz",
-      "description": "Create trajectory visualisations with selectable visualiser types.",
-      "node_summary": "Build class spaghetti, mean profile, and trajectory-size visualisations.",
-      "subtitle": "Create trajectory visualisations for longitudinal outcomes. Press Esc to exit.",
-      "table_title": "Trajectories Viz",
-      "selection_title": "Trajectories visualisation action",
-      "catalog_operation": "data_preprocessing.trajectories_viz.catalog",
-      "run_operation": "data_preprocessing.trajectories_viz.run",
-      "status": "available"
-    }
-  ],
-  "presets": [
-    {
-      "id": "preprocess_mcs_by_leap",
-      "name": "Preprocess MCS by LEAP",
-      "description": "Run the staged, config-driven preprocessing preset for the prepared MCS wide dataset, with transparent per-stage audit outputs.",
-      "status": "runnable"
     }
   ]
 }

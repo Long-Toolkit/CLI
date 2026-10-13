@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	cp "ldt-toolkit-cli/internal/command_palette"
+	cp "long-toolkit-cli/internal/command_palette"
 	"strings"
 )
 

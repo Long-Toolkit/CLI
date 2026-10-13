@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/model"
-	"ldt-toolkit-cli/internal/shared/theme"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/model"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 func HandleBridgePath(path []string) (bool, error) {
@@ -24,76 +24,30 @@ func HandleBridgePath(path []string) (bool, error) {
 		listOnly := strings.TrimSpace(tool.ListCommand) != "" && ContainsToken(canonical, tool.ListCommand)
 		return true, runDataPreparationToolFlow(tool, listOnly)
 	}
-	if len(canonical) >= 3 && canonical[1] == "presets" {
-		return true, runDataPreparationPresetFlowByID(canonical[2])
-	}
 
-	switch {
-	case len(canonical) == 1:
+	if len(canonical) == 1 {
 		return true, runDataPreparationHub()
-	case len(canonical) == 2 && canonical[1] == "tools":
-		return true, runDataPreparationToolsHub()
-	case len(canonical) == 2 && canonical[1] == "presets":
-		return true, runDataPreparationPresetsHub()
-	default:
-		return true, fmt.Errorf(
-			"unsupported data preparation route in Go CLI: %s",
-			strings.Join(path, " "),
-		)
 	}
+	return true, fmt.Errorf(
+		"unsupported data preparation route in Go CLI: %s",
+		strings.Join(path, " "),
+	)
 }
 
 func renderDataPreparationHelp(canonical []string) error {
 	if tool, ok := ToolFromPath(canonical); ok {
 		return runDataPreparationToolFlow(tool, true)
 	}
-	if len(canonical) >= 3 && canonical[1] == "presets" {
-		return runDataPreparationPresetFlowByID(canonical[2])
-	}
 
 	cfg := CurrentConfig()
 
-	if len(canonical) >= 2 && canonical[1] == "tools" {
-		components.PrintBlankLine()
-		components.PrintLine(theme.App.SubtitleStyle().Render("Data preparation tools"))
-		components.PrintLine(theme.App.MutedTextStyle().Render(cfg.ToolsSummary))
-		components.PrintBlankLine()
-		for _, command := range ToolCommands() {
-			components.PrintLine("- " + model.CommandLabel(command) + ": " + command.Description)
-		}
-		return nil
-	}
-
-	if len(canonical) >= 2 && canonical[1] == "presets" {
-		presets, err := presetsForDisplay()
-		if err != nil {
-			return err
-		}
-		components.PrintBlankLine()
-		components.PrintLine(theme.App.SubtitleStyle().Render("Data preparation presets"))
-		if len(presets) == 0 {
-			components.PrintLine(theme.App.MutedTextStyle().Render("No presets configured."))
-			return nil
-		}
-		for _, preset := range presets {
-			label := strings.TrimSpace(preset.Name)
-			if label == "" {
-				label = "Unnamed preset"
-			}
-			line := fmt.Sprintf("- %s: %s", label, preset.Description)
-			components.PrintLine(line)
-		}
-		return nil
-	}
-
 	components.PrintBlankLine()
-	components.PrintLine(theme.App.SubtitleStyle().Render("Data preparation"))
+	components.PrintLine(theme.App.SubtitleStyle().Render("Data preparation tools"))
 	components.PrintLine(theme.App.MutedTextStyle().Render(cfg.RootSummary))
 	components.PrintBlankLine()
 	for _, command := range ToolCommands() {
-		components.PrintLine("- tools " + model.CommandLabel(command))
+		components.PrintLine("- " + model.CommandLabel(command) + ": " + command.Description)
 	}
-	components.PrintLine("- presets")
 	return nil
 }
 
@@ -115,64 +69,8 @@ func LoadNode(path []string) (*parsedHelp, bool, error) {
 		}
 	}
 
-	cfg := CurrentConfig()
-
-	switch {
-	case len(canonical) == 1:
-		return newNode(
-			cfg.RootSummary,
-			[]commandDef{
-				{Name: "tools", DisplayName: "Tools", Description: "Primary data preparation tools for new studies."},
-				{Name: "presets", DisplayName: "Presets", Description: "Reproducibility presets for published studies."},
-			},
-		), true, nil
-
-	case len(canonical) == 2 && canonical[1] == "tools":
-		return newNode(
-			cfg.ToolsSummary,
-			ToolCommands(),
-		), true, nil
-
-	case len(canonical) == 2 && canonical[1] == "presets":
-		presets, err := presetsForDisplay()
-		if err != nil {
-			return nil, true, err
-		}
-		commands := make([]commandDef, 0, len(presets))
-		for _, preset := range presets {
-			commands = append(commands, commandDef{
-				Name:        preset.ID,
-				DisplayName: strings.TrimSpace(preset.Name),
-				Description: preset.Description,
-			})
-		}
-		return newNode(
-			cfg.PresetsSummary,
-			commands,
-		), true, nil
-
-	case len(canonical) == 3 && canonical[1] == "presets":
-		preset, found, err := presetByIDForDisplay(canonical[2])
-		if err != nil {
-			return nil, true, err
-		}
-		if found {
-			return newNode(
-				strings.TrimSpace(preset.Description),
-				nil,
-			), true, nil
-		}
-		if configured, ok := PresetByID(canonical[2]); ok {
-			return newNode(
-				strings.TrimSpace(configured.Description),
-				nil,
-			), true, nil
-		}
-		return newNode(
-			"Run configured preset in Go CLI.",
-			nil,
-		), true, nil
-
+	if len(canonical) == 1 {
+		return newNode(CurrentConfig().RootSummary, ToolCommands()), true, nil
 	}
 
 	if tool, ok := ToolFromPath(canonical); ok {

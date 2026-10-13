@@ -1,6 +1,6 @@
 package dataprep
 
-import toolsmodule "ldt-toolkit-cli/internal/screens/data_preparation/tools"
+import toolsmodule "long-toolkit-cli/internal/screens/data_preparation/tools"
 
 func runDataPreparationToolFlow(tool ToolConfig, listOnly bool) error {
 	err := toolsmodule.Run(

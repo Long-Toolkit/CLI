@@ -6,7 +6,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 
-	"ldt-toolkit-cli/internal/shared/theme"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 type StagePanelInput struct {

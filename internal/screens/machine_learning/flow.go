@@ -5,10 +5,10 @@ import (
 	"strings"
 	"time"
 
-	"ldt-toolkit-cli/internal/screens/machine_learning/support/ui"
-	toolsmodule "ldt-toolkit-cli/internal/screens/machine_learning/tools"
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/theme"
+	"long-toolkit-cli/internal/screens/machine_learning/support/ui"
+	toolsmodule "long-toolkit-cli/internal/screens/machine_learning/tools"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 func runMachineLearningToolFlow(tool ToolConfig, listOnly bool) error {

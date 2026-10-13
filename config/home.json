@@ -8,56 +8,65 @@
     {
       "name": "list_authors",
       "display_name": "List authors",
-      "description": "List first, second, et al authors."
+      "description": "List the authors of the toolkit."
     },
     {
-      "name": "list_inspiration_from",
-      "display_name": "List inspiration from",
-      "description": "List all papers inspiring this toolkit."
+      "name": "motivation",
+      "display_name": "Motivation",
+      "description": "Why we built Long-Toolkit."
     }
   ],
   "authors": [
     {
       "label": "1",
-      "text": "Simon Provost (Ph.D student University of Kent - https://orcid.org/0000-0001-8402-5464)"
+      "text": "Simon Provost (Postdoctoral Researcher, McGill University, MEDomicsLab; https://orcid.org/0000-0001-8402-5464)"
     },
     {
       "label": "2",
-      "text": "Bianca Branco (Ph.D student University of Edinburgh - https://orcid.org/0000-0003-0031-6200)"
+      "text": "Bianca Branco (PhD student, University of Edinburgh; https://orcid.org/0000-0003-0031-6200)"
     },
     {
       "label": "3",
-      "text": "Alex Kwong (Wellcome Senior Research Fellow University of Edinburgh - https://orcid.org/0000-0003-1953-2771)"
-    }
-  ],
-  "inspirations": [
-    {
-      "label": "1",
-      "text": "Prediction of the trajectories of depressive symptoms among children in the adolescent brain cognitive development (ABCD) study using machine learning approach - https://doi.org/10.1016/j.jad.2022.05.020"
+      "text": "Honghui Chen"
     },
     {
-      "label": "2",
-      "text": "Prediction models for longitudinal trajectories of depression and anxiety: a systematic review - https://doi.org/10.1016/j.jad.2026.121255"
+      "label": "4",
+      "text": "Isaac Tassella"
+    },
+    {
+      "label": "5",
+      "text": "Alex Kwong (Wellcome Senior Research Fellow, University of Edinburgh; https://orcid.org/0000-0003-1953-2771)"
     }
   ],
+  "motivation": {
+    "quote": "Longitudinal studies invest heavily in collecting and curating their data, yet machine learning is either left aside or applied as if every wave were an unrelated feature. We built Long-Toolkit so that experts of longitudinal studies can get their data ready, and measure fairly whether conventional or longitudinal machine learning is worth it.",
+    "attribution": "Simon Provost (McGill University) & Dr Alex Kwong, LEAP lab (University of Edinburgh)",
+    "read_more": "https://long-toolkit.readthedocs.io/en/latest/getting-started/#motivation"
+  },
   "tutorial_steps": [
     {
-      "title": "Step 1 - Stage A (Data Preparation)",
-      "goal": "(1) Offer data preparation utilities to convert raw cohort data into formats needed downstream. (2) Offer reproducibility presets for available longitudinal studies.",
+      "title": "Step 1: Stage A (Data Preparation)",
+      "goal": "Use the data preparation tools to generate synthetic longitudinal data with controlled temporal patterns, or to convert cohort files between CSV, Parquet and Stata formats.",
       "outcome": "Output: prepared longitudinal dataset(s) ready for preprocessing.",
-      "recommendation": "If no built-in tool/preset fits your study, write your own script and consider opening a pull request."
+      "recommendation": "When no built-in tool fits a dataset, write a custom script and consider opening a pull request."
     },
     {
-      "title": "Step 2 - Stage B (Data Preprocessing)",
-      "goal": "(1) Offer preprocessing utilities to build trajectories, merge data, and make datasets ML-ready. (2) Reproducibility presets for this stage are incoming.",
-      "outcome": "Output: trajectory-informed and preprocessing-validated dataset(s).",
-      "recommendation": "If no built-in tool/preset fits your study, implement your own workflow and consider opening a pull request."
+      "title": "Step 2: Stage B (Data Preprocessing)",
+      "goal": "Use the data preprocessing tools to clean, impute, harmonise and reshape longitudinal datasets so they are ready for modelling.",
+      "outcome": "Output: quality-checked dataset(s) ready for modelling.",
+      "recommendation": "When no built-in tool fits a dataset, implement a custom workflow and consider opening a pull request."
     },
     {
-      "title": "Step 3 - Stage C (Machine Learning)",
-      "goal": "(1) Offer machine-learning utilities for longitudinal and standard estimators. (2) Offer reproducibility presets to rerun ML pipelines from available studies.",
-      "outcome": "Output: model artefacts and evaluation summaries ready to share.",
-      "recommendation": "If no built-in tool/preset fits your study, run your own ML pipeline and consider opening a pull request."
+      "title": "Step 3: Stage C (Machine Learning)",
+      "goal": "Use the benchmarking tools to compare standard and longitudinal machine learning under one shared protocol, and establish whether machine learning, and/or longitudinal machine learning, is worth it on a dataset compared with a statistical baseline. Training tools sit alongside them.",
+      "outcome": "Output: saved models, benchmark rankings and evaluation summaries ready to explain or share.",
+      "recommendation": "When no built-in tool fits a dataset, run a custom machine learning pipeline and consider opening a pull request."
+    },
+    {
+      "title": "Step 4: Stage D (Explainability)",
+      "goal": "Use the SHAP analysis tool to explain a saved model, e.g., the best estimator of a benchmark, and see which features drive its predictions.",
+      "outcome": "Output: SHAP values, feature-importance figures and report artefacts ready to share.",
+      "recommendation": "When no built-in tool fits a model, run a custom explainability analysis and consider opening a pull request."
     }
   ]
 }

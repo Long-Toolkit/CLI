@@ -18,24 +18,25 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	commandpalette "ldt-toolkit-cli/internal/command_palette"
-	dataprep "ldt-toolkit-cli/internal/screens/data_preparation"
-	datapp "ldt-toolkit-cli/internal/screens/data_preprocessing"
-	"ldt-toolkit-cli/internal/screens/home"
-	machinelearning "ldt-toolkit-cli/internal/screens/machine_learning"
-	anim "ldt-toolkit-cli/internal/shared/asciimotion"
-	"ldt-toolkit-cli/internal/shared/common"
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/model"
-	"ldt-toolkit-cli/internal/shared/theme"
+	commandpalette "long-toolkit-cli/internal/command_palette"
+	dataprep "long-toolkit-cli/internal/screens/data_preparation"
+	datapp "long-toolkit-cli/internal/screens/data_preprocessing"
+	"long-toolkit-cli/internal/screens/explainability"
+	"long-toolkit-cli/internal/screens/home"
+	machinelearning "long-toolkit-cli/internal/screens/machine_learning"
+	anim "long-toolkit-cli/internal/shared/asciimotion"
+	"long-toolkit-cli/internal/shared/common"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/model"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 const (
 	defaultUvBinary       = "uv"
-	pythonEntryPoint      = "ldt-toolkit"
-	bridgeRunnerCommand   = "ldt-bridge"
-	bridgeRunnerModule    = "ldt.bridge.runner"
-	installationHelpHint  = "Run from a project directory containing pyproject.toml with `uv add ldt-toolkit`, then retry."
+	pythonEntryPoint      = "long-toolkit"
+	bridgeRunnerCommand   = "long-toolkit-bridge"
+	bridgeRunnerModule    = "long_toolkit.bridge.runner"
+	installationHelpHint  = "Run from a project directory containing pyproject.toml with `uv add long-toolkit`, then retry."
 	bridgeHintDelay       = 9 * time.Second
 	bridgeHintRotateEvery = 4 * time.Second
 	homeTabLabel          = "Home"
@@ -159,17 +160,22 @@ var stageCommands = []commandDef{
 	{
 		Name:        "data_preparation",
 		DisplayName: "Data Preparation",
-		Description: "(1-A) Prepare raw cohort longitudinal data or generate synthetic longitudinal data.",
+		Description: "(1-A) Generate synthetic longitudinal data or convert cohort files between formats.",
 	},
 	{
 		Name:        "data_preprocessing",
 		DisplayName: "Data Preprocessing",
-		Description: "(2-B) Build trajectories, improve data quality, and manipulate datasets for modelling.",
+		Description: "(2-B) Improve data quality and reshape datasets for modelling.",
 	},
 	{
 		Name:        "machine_learning",
 		DisplayName: "Machine Learning",
-		Description: "(3-C) Run longitudinal and standard machine learning workflows.",
+		Description: "(3-C) Benchmark and train standard and longitudinal machine learning.",
+	},
+	{
+		Name:        "explainability",
+		DisplayName: "Explainability",
+		Description: "(4-D) Explain a saved model, e.g., the best estimator of a benchmark, with SHAP values.",
 	},
 }
 
@@ -189,6 +195,9 @@ func Run(args []string) error {
 	if err := machinelearning.Configure(); err != nil {
 		return err
 	}
+	if err := explainability.Configure(); err != nil {
+		return err
+	}
 	homeScreen, err := configureHomeContent()
 	if err != nil {
 		return err
@@ -205,9 +214,13 @@ func Run(args []string) error {
 		executeBridgeOperation,
 		func() bool { return inNavigatorSession },
 	)
+	explainability.ConfigureRuntime(
+		executeBridgeOperation,
+		func() bool { return inNavigatorSession },
+	)
 
 	if len(args) > 0 {
-		return errors.New("interactive mode only: run `ldt` without arguments")
+		return errors.New("interactive mode only: run `long-toolkit` without arguments")
 	}
 	return runInteractiveNavigator(homeScreen)
 }
@@ -303,7 +316,7 @@ func (m appModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		stage.list.Title = ""
 		stage.list.SetItems(commandsToItems(stage.node.Commands))
 		m.resizeLists()
-		if (isDataPreparationStage(message.stage) || isDataPreprocessingStage(message.stage) || isMachineLearningStage(message.stage)) &&
+		if (isToolStage(message.stage)) &&
 			message.node != nil && len(message.node.Commands) == 0 {
 			m.pendingRun = model.ClonePath(message.path)
 			return m, tea.Batch(tea.Quit, titleCmd)
@@ -350,7 +363,7 @@ func (m appModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m appModel) View() string {
 	if m.width == 0 || m.height == 0 {
-		return "Loading ldt..."
+		return "Loading long-toolkit..."
 	}
 
 	header := components.ApplyLeftLayoutMargin(renderInteractiveHeader(m.width, m.headerAnimation.View()))
@@ -481,6 +494,10 @@ func (m *appModel) onBridgeActionComplete(path []string) {
 	}
 	if canonical, handled := machinelearning.CanonicalPath(path); handled {
 		m.resetStageAfterAction("machine_learning", canonical)
+		return
+	}
+	if canonical, handled := explainability.CanonicalPath(path); handled {
+		m.resetStageAfterAction("explainability", canonical)
 	}
 }
 
@@ -512,37 +529,7 @@ func (m *appModel) resetStageAfterAction(stageName string, canonical []string) {
 	}
 }
 
-func (m *appModel) exitCurrentTool(stageName string, stage *stageState) bool {
-	if isDataPreparationStage(stageName) {
-		canonical, handled := dataprep.CanonicalPath(stage.path)
-		if handled && len(canonical) >= 3 && canonical[1] == "tools" {
-			stage.path = model.ClonePath(canonical[:2])
-			return true
-		}
-	}
-	if isDataPreprocessingStage(stageName) {
-		canonical, handled := datapp.CanonicalPath(stage.path)
-		if handled && len(canonical) >= 3 && canonical[1] == "tools" {
-			stage.path = model.ClonePath(canonical[:2])
-			return true
-		}
-		if handled && len(canonical) >= 3 && canonical[1] == "presets" {
-			stage.path = model.ClonePath(canonical[:2])
-			return true
-		}
-	}
-	if isMachineLearningStage(stageName) {
-		canonical, handled := machinelearning.CanonicalPath(stage.path)
-		if handled && len(canonical) >= 3 && canonical[1] == "tools" {
-			stage.path = model.ClonePath(canonical[:2])
-			return true
-		}
-		if handled && len(canonical) >= 3 && canonical[1] == "presets" {
-			stage.path = model.ClonePath(canonical[:2])
-			return true
-		}
-	}
-
+func (m *appModel) exitCurrentTool(stage *stageState) bool {
 	if len(stage.path) > 1 {
 		stage.path = []string{stage.root}
 		return true
@@ -596,7 +583,7 @@ func (m appModel) updateStage(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.loading {
 				return m, nil
 			}
-			if !m.exitCurrentTool(stageName, stage) {
+			if !m.exitCurrentTool(stage) {
 				return m, nil
 			}
 			stage.node = nil
@@ -727,7 +714,7 @@ func (m appModel) renderContent() string {
 		Summary: summary,
 		Usage:   usage,
 
-		IsDataPreparationLeaf: (isDataPreparationStage(stageName) || isDataPreprocessingStage(stageName) || isMachineLearningStage(stageName)) &&
+		IsDataPreparationLeaf: (isToolStage(stageName)) &&
 			stage.node != nil && len(stage.node.Commands) == 0,
 		RunTargetPath: strings.Join(stage.path, " > "),
 		RunHint:       "Press Enter to run this action.",
@@ -841,7 +828,10 @@ func newHelpLoader() *components.HelpLoader {
 			if node, handled, err := datapp.LoadNode(path); handled {
 				return node, true, err
 			}
-			return machinelearning.LoadNode(path)
+			if node, handled, err := machinelearning.LoadNode(path); handled {
+				return node, true, err
+			}
+			return explainability.LoadNode(path)
 		},
 	})
 }
@@ -889,6 +879,9 @@ func stageHeadingText(stageName string, stagePath []string) string {
 	if isMachineLearningStage(stageName) {
 		return machinelearning.Heading(stagePath)
 	}
+	if isExplainabilityStage(stageName) {
+		return explainability.Heading(stagePath)
+	}
 	parts := make([]string, 0, len(stagePath))
 	for _, token := range stagePath {
 		parts = append(parts, stagePathTokenLabel(token))
@@ -923,9 +916,15 @@ func stagePathTokenLabel(token string) string {
 }
 
 func stageShouldDisplayUsage(stageName string) bool {
-	return !isDataPreparationStage(stageName) &&
-		!isDataPreprocessingStage(stageName) &&
-		!isMachineLearningStage(stageName)
+	return !isToolStage(stageName)
+}
+
+// isToolStage reports whether a stage opens straight onto bridge-backed tools.
+func isToolStage(stageName string) bool {
+	return isDataPreparationStage(stageName) ||
+		isDataPreprocessingStage(stageName) ||
+		isMachineLearningStage(stageName) ||
+		isExplainabilityStage(stageName)
 }
 
 func isDataPreparationStage(stageName string) bool {
@@ -940,6 +939,10 @@ func isMachineLearningStage(stageName string) bool {
 	return strings.EqualFold(strings.TrimSpace(stageName), "machine_learning")
 }
 
+func isExplainabilityStage(stageName string) bool {
+	return strings.EqualFold(strings.TrimSpace(stageName), "explainability")
+}
+
 func loadingStatusMessage(stageName string) string {
 	if strings.EqualFold(stageName, "data_preparation") {
 		return "Loading data preparation catalog..."
@@ -949,6 +952,9 @@ func loadingStatusMessage(stageName string) string {
 	}
 	if strings.EqualFold(stageName, "machine_learning") {
 		return "Loading machine learning catalog..."
+	}
+	if strings.EqualFold(stageName, "explainability") {
+		return "Loading explainability catalog..."
 	}
 	return "Loading command map..."
 }
@@ -988,13 +994,16 @@ func runBridgeOperationForPath(path []string) (bool, error) {
 	if handled, err := machinelearning.HandleBridgePath(path); handled || err != nil {
 		return handled, err
 	}
+	if handled, err := explainability.HandleBridgePath(path); handled || err != nil {
+		return handled, err
+	}
 
 	switch model.JoinPath(path) {
 	case model.JoinPath([]string{"list_authors"}):
 		return true, home.RunConfiguredAuthors()
 
-	case model.JoinPath([]string{"list_inspiration_from"}):
-		return true, home.RunConfiguredInspirations()
+	case model.JoinPath([]string{"motivation"}):
+		return true, home.RunConfiguredMotivation()
 
 	case model.JoinPath([]string{"toolkit_tutorial"}):
 		return true, home.RunConfiguredTutorial()

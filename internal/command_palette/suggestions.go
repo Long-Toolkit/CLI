@@ -34,8 +34,6 @@ func examplePool(entries []Entry) []string {
 	preferred := []string{
 		"data conversion",
 		"synthetic data generation",
-		"build trajectories",
-		"combine dataset with trajectories",
 		"clean dataset",
 		"missing imputation",
 		"harmonise categories",
@@ -43,7 +41,6 @@ func examplePool(entries []Entry) []string {
 		"aggregate long to cross sectional",
 		"rename feature",
 		"pivot long to wide",
-		"trajectories viz",
 	}
 	fallback := []string{
 		"benchmark standard ml",
@@ -115,10 +112,8 @@ func examplePool(entries []Entry) []string {
 func filterToolEntries(entries []Entry) []Entry {
 	tools := make([]Entry, 0, len(entries))
 	for _, entry := range entries {
-		if len(entry.Command) < 3 {
-			continue
-		}
-		if normalize(entry.Command[1]) != "tools" {
+		// Tool entries are stage followed by tool id; stage roots and home actions are single tokens.
+		if len(entry.Command) < 2 {
 			continue
 		}
 		tools = append(tools, entry)

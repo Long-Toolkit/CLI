@@ -10,9 +10,9 @@ import (
 
 	"github.com/charmbracelet/huh"
 
-	"ldt-toolkit-cli/internal/screens/machine_learning/support/schema"
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/model"
+	"long-toolkit-cli/internal/screens/machine_learning/support/schema"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/model"
 )
 
 func PromptTechniqueSelection(title string, techniques []schema.Technique) (schema.Technique, error) {
@@ -27,7 +27,7 @@ func PromptTechniqueSelection(title string, techniques []schema.Technique) (sche
 		selectedID = techniques[0].ID
 	}
 
-	form := components.NewLDTForm(
+	form := components.NewToolkitForm(
 		huh.NewGroup(
 			huh.NewSelect[string]().
 				Title(title).
@@ -113,14 +113,14 @@ func promptParameterValue(parameter schema.Parameter) (any, error) {
 	if shouldUseCheckboxMultiSelect(parameter) {
 		return promptCheckboxMultiSelectValue(parameter)
 	}
-	if shouldUseValidationSplitSelector(parameter) {
-		return promptValidationSplitValue(parameter)
+	if shouldUseHoldoutSplitSelector(parameter) {
+		return promptHoldoutSplitValue(parameter)
 	}
 
 	switch typeName {
 	case "bool", "boolean":
 		value := defaultBool(parameter.Default)
-		form := components.NewLDTForm(
+		form := components.NewToolkitForm(
 			huh.NewGroup(
 				huh.NewConfirm().
 					Title(title).
@@ -153,7 +153,7 @@ func promptParameterValue(parameter schema.Parameter) (any, error) {
 			selected = strings.TrimSpace(fmt.Sprintf("%v", parameter.Options[0].Value))
 		}
 
-		form := components.NewLDTForm(
+		form := components.NewToolkitForm(
 			huh.NewGroup(
 				huh.NewSelect[string]().
 					Title(title).
@@ -185,7 +185,7 @@ func promptParameterValue(parameter schema.Parameter) (any, error) {
 		inputField = inputField.Placeholder(strings.TrimSpace(parameter.Placeholder))
 	}
 
-	form := components.NewLDTForm(
+	form := components.NewToolkitForm(
 		huh.NewGroup(inputField),
 	)
 	if err := form.Run(); err != nil {
@@ -405,6 +405,16 @@ func defaultInputValue(parameter schema.Parameter) string {
 		return ""
 	}
 
+	if strings.EqualFold(strings.TrimSpace(parameter.Type), "json") {
+		if asString, ok := parameter.Default.(string); ok {
+			return strings.TrimSpace(asString)
+		}
+		encoded, err := json.Marshal(parameter.Default)
+		if err == nil {
+			return strings.TrimSpace(string(encoded))
+		}
+	}
+
 	switch value := parameter.Default.(type) {
 	case string:
 		return value
@@ -460,8 +470,8 @@ func parseDefaultCSV(value any) []string {
 func numericDescriptionForParameter(parameter schema.Parameter) string {
 	key := strings.ToLower(strings.TrimSpace(parameter.Key))
 	switch key {
-	case "cv_folds":
-		return "Choose the number of folds. Example: 5 means train on 4 folds and validate on 1 fold in rotation."
+	case "n_splits":
+		return "Choose the number of folds or repeated holdout runs. Example: 5 means 5 CV folds or 5 repeated holdout splits."
 	case "random_seed":
 		return "Set the reproducibility seed. Use the same value to reproduce dataset splits and model randomness."
 	default:
@@ -469,14 +479,13 @@ func numericDescriptionForParameter(parameter schema.Parameter) string {
 	}
 }
 
-func shouldUseValidationSplitSelector(parameter schema.Parameter) bool {
-	return strings.EqualFold(strings.TrimSpace(parameter.Key), "validation_split")
+func shouldUseHoldoutSplitSelector(parameter schema.Parameter) bool {
+	return strings.EqualFold(strings.TrimSpace(parameter.Key), "holdout_split")
 }
 
-func promptValidationSplitValue(parameter schema.Parameter) (any, error) {
+func promptHoldoutSplitValue(parameter schema.Parameter) (any, error) {
 	selected := defaultString(parameter.Default)
 	options := []huh.Option[string]{
-		huh.NewOption("auto", "auto"),
 		huh.NewOption("90/10", "90/10"),
 		huh.NewOption("80/20", "80/20"),
 		huh.NewOption("70/30", "70/30"),
@@ -485,14 +494,14 @@ func promptValidationSplitValue(parameter schema.Parameter) (any, error) {
 		huh.NewOption("40/60", "40/60"),
 	}
 	if strings.TrimSpace(selected) == "" {
-		selected = "auto"
+		selected = "80/20"
 	}
 
-	form := components.NewLDTForm(
+	form := components.NewToolkitForm(
 		huh.NewGroup(
 			huh.NewSelect[string]().
 				Title(parameterPromptTitle(parameter)).
-				Description("Choose train/validation split. Example: 80/20 means 80% train, 20% validation.").
+				Description("Choose holdout train/validation split. Example: 80/20 means 80% train, 20% validation.").
 				Options(options...).
 				Value(&selected),
 		),

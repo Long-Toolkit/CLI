@@ -1,7 +1,7 @@
 package benchstandardandlongitudinalml
 
 import (
-	"ldt-toolkit-cli/internal/screens/machine_learning/tools/spec"
+	"long-toolkit-cli/internal/screens/machine_learning/tools/spec"
 )
 
 func Build(tool spec.Tool) spec.FlowSpec {

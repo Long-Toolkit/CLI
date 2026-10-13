@@ -6,37 +6,12 @@ import (
 
 func Heading(path []string) string {
 	canonical, handled := CanonicalPath(path)
-	if !handled || len(canonical) == 0 {
+	if !handled || len(canonical) <= 1 {
 		return "Data Preparation"
-	}
-
-	switch {
-	case len(canonical) == 1:
-		return "Data Preparation"
-	case len(canonical) == 2 && canonical[1] == "tools":
-		return "Data Preparation / Tools"
-	case len(canonical) == 2 && canonical[1] == "presets":
-		return "Data Preparation / Presets"
-	case len(canonical) >= 3 && canonical[1] == "presets":
-		if preset, ok := PresetByID(canonical[2]); ok {
-			name := strings.TrimSpace(preset.Name)
-			if name != "" {
-				return name
-			}
-		}
-		return strings.TrimSpace(canonical[2])
 	}
 
 	if tool, ok := ToolFromPath(canonical); ok {
 		return tool.Name
-	}
-	if len(canonical) >= 3 && canonical[1] == "presets" {
-		if preset, ok := PresetByID(canonical[2]); ok {
-			name := strings.TrimSpace(preset.Name)
-			if name != "" {
-				return name
-			}
-		}
 	}
 
 	parts := make([]string, 0, len(canonical))
@@ -61,22 +36,15 @@ func CanonicalPath(path []string) ([]string, bool) {
 
 	for _, token := range path[1:] {
 		tokenKey := canonicalToken(token)
-		switch tokenKey {
-		case "tools":
-			canonical = append(canonical, "tools")
-		case "presets", "presets_reproducibility":
-			canonical = append(canonical, "presets")
-		default:
-			if toolID, ok := canonicalToolID(tokenKey); ok {
-				canonical = append(canonical, toolID)
-				continue
-			}
-			if listCommand, ok := canonicalToolListCommand(tokenKey); ok {
-				canonical = append(canonical, listCommand)
-				continue
-			}
-			canonical = append(canonical, token)
+		if toolID, ok := canonicalToolID(tokenKey); ok {
+			canonical = append(canonical, toolID)
+			continue
 		}
+		if listCommand, ok := canonicalToolListCommand(tokenKey); ok {
+			canonical = append(canonical, listCommand)
+			continue
+		}
+		canonical = append(canonical, token)
 	}
 
 	return canonical, true

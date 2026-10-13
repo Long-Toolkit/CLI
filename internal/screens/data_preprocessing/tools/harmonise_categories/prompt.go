@@ -1,8 +1,8 @@
 package harmonisecategories
 
 import (
-	"ldt-toolkit-cli/internal/screens/data_preprocessing/support/schema"
-	"ldt-toolkit-cli/internal/screens/data_preprocessing/tools/prompting"
+	"long-toolkit-cli/internal/screens/data_preprocessing/support/schema"
+	"long-toolkit-cli/internal/screens/data_preprocessing/tools/prompting"
 )
 
 func PromptTechniqueSelection(title string, techniques []schema.Technique) (schema.Technique, error) {

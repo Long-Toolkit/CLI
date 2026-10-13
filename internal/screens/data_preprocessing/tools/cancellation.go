@@ -5,7 +5,7 @@ import (
 
 	"github.com/charmbracelet/huh"
 
-	"ldt-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/components"
 )
 
 func IsFlowCancelled(err error) bool {

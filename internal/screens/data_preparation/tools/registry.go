@@ -3,9 +3,9 @@ package tools
 import (
 	"strings"
 
-	dataconversion "ldt-toolkit-cli/internal/screens/data_preparation/tools/data_conversion"
-	"ldt-toolkit-cli/internal/screens/data_preparation/tools/spec"
-	syntheticdatageneration "ldt-toolkit-cli/internal/screens/data_preparation/tools/synthetic_data_generation"
+	dataconversion "long-toolkit-cli/internal/screens/data_preparation/tools/data_conversion"
+	"long-toolkit-cli/internal/screens/data_preparation/tools/spec"
+	syntheticdatageneration "long-toolkit-cli/internal/screens/data_preparation/tools/synthetic_data_generation"
 )
 
 type Tool = spec.Tool

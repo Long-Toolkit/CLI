@@ -8,12 +8,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	toolkitconfig "ldt-toolkit-cli/config"
-	"ldt-toolkit-cli/internal/shared/common"
+	toolkitconfig "long-toolkit-cli/config"
+	"long-toolkit-cli/internal/shared/common"
 )
 
 const (
-	commandPaletteConfigEnvVar      = "LDT_COMMAND_PALETTE_CONFIG"
+	commandPaletteConfigEnvVar      = "LONG_TOOLKIT_COMMAND_PALETTE_CONFIG"
 	defaultCommandPaletteConfigPath = "config/command_palette.json"
 )
 

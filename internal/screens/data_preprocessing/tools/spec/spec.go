@@ -3,7 +3,7 @@ package spec
 import (
 	"strings"
 
-	"ldt-toolkit-cli/internal/screens/data_preprocessing/support/schema"
+	"long-toolkit-cli/internal/screens/data_preprocessing/support/schema"
 )
 
 type Tool struct {

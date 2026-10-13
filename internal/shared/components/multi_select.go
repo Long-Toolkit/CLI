@@ -46,7 +46,7 @@ func PromptMultiSelect(
 		field = field.Description(strings.TrimSpace(description))
 	}
 
-	form := NewLDTForm(
+	form := NewToolkitForm(
 		huh.NewGroup(field),
 	)
 	if err := form.Run(); err != nil {

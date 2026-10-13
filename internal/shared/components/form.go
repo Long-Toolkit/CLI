@@ -6,13 +6,13 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-func NewLDTForm(groups ...*huh.Group) *huh.Form {
+func NewToolkitForm(groups ...*huh.Group) *huh.Form {
 	return huh.NewForm(groups...).
-		WithTheme(ldtFormTheme()).
-		WithKeyMap(ldtFormKeyMap())
+		WithTheme(toolkitFormTheme()).
+		WithKeyMap(toolkitFormKeyMap())
 }
 
-func ldtFormTheme() *huh.Theme {
+func toolkitFormTheme() *huh.Theme {
 	formTheme := huh.ThemeCharm()
 	accent := lipgloss.Color("#DFA3C3")
 	text := lipgloss.Color("#ECECF3")
@@ -45,7 +45,7 @@ func ldtFormTheme() *huh.Theme {
 	return formTheme
 }
 
-func ldtFormKeyMap() *huh.KeyMap {
+func toolkitFormKeyMap() *huh.KeyMap {
 	keymap := huh.NewDefaultKeyMap()
 	keymap.Quit = key.NewBinding(
 		key.WithKeys("esc", "ctrl+c"),

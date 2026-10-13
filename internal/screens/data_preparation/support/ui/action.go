@@ -8,8 +8,8 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"golang.org/x/term"
 
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/theme"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 const DefaultHeaderPanelWidth = 132

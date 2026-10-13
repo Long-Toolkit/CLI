@@ -9,9 +9,9 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	liptable "github.com/charmbracelet/lipgloss/table"
 
-	anim "ldt-toolkit-cli/internal/shared/asciimotion"
-	"ldt-toolkit-cli/internal/shared/model"
-	"ldt-toolkit-cli/internal/shared/theme"
+	anim "long-toolkit-cli/internal/shared/asciimotion"
+	"long-toolkit-cli/internal/shared/model"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 const (

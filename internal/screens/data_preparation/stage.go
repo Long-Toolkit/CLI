@@ -3,10 +3,10 @@ package dataprep
 import (
 	"errors"
 
-	"ldt-toolkit-cli/internal/shared/model"
+	"long-toolkit-cli/internal/shared/model"
 )
 
-const usageCommandPrefix = "ldt-toolkit"
+const usageCommandPrefix = "long-toolkit"
 
 type bridgeExecutor func(operation string, params map[string]any) (map[string]any, error)
 

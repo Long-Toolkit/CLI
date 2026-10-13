@@ -9,9 +9,9 @@ import (
 
 	"github.com/charmbracelet/huh"
 
-	"ldt-toolkit-cli/internal/screens/data_preparation/support/schema"
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/model"
+	"long-toolkit-cli/internal/screens/data_preparation/support/schema"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/model"
 )
 
 func PromptTechniqueSelection(title string, techniques []schema.Technique) (schema.Technique, error) {
@@ -26,7 +26,7 @@ func PromptTechniqueSelection(title string, techniques []schema.Technique) (sche
 		selectedID = techniques[0].ID
 	}
 
-	form := components.NewLDTForm(
+	form := components.NewToolkitForm(
 		huh.NewGroup(
 			huh.NewSelect[string]().
 				Title(title).
@@ -115,7 +115,7 @@ func promptParameterValue(parameter schema.Parameter) (any, error) {
 	switch typeName {
 	case "bool", "boolean":
 		value := defaultBool(parameter.Default)
-		form := components.NewLDTForm(
+		form := components.NewToolkitForm(
 			huh.NewGroup(
 				huh.NewConfirm().
 					Title(title).
@@ -148,7 +148,7 @@ func promptParameterValue(parameter schema.Parameter) (any, error) {
 			selected = strings.TrimSpace(fmt.Sprintf("%v", parameter.Options[0].Value))
 		}
 
-		form := components.NewLDTForm(
+		form := components.NewToolkitForm(
 			huh.NewGroup(
 				huh.NewSelect[string]().
 					Title(title).
@@ -180,7 +180,7 @@ func promptParameterValue(parameter schema.Parameter) (any, error) {
 		inputField = inputField.Placeholder(strings.TrimSpace(parameter.Placeholder))
 	}
 
-	form := components.NewLDTForm(
+	form := components.NewToolkitForm(
 		huh.NewGroup(inputField),
 	)
 	if err := form.Run(); err != nil {
@@ -216,7 +216,7 @@ func promptPathValueInline(parameter schema.Parameter, initialPath string) (stri
 	}
 	inputField = inputField.Placeholder(placeholder)
 
-	form := components.NewLDTForm(
+	form := components.NewToolkitForm(
 		huh.NewGroup(inputField),
 	)
 	if err := form.Run(); err != nil {

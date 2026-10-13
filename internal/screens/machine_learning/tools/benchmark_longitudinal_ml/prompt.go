@@ -1,8 +1,8 @@
 package benchmarklongitudinalml
 
 import (
-	"ldt-toolkit-cli/internal/screens/machine_learning/support/schema"
-	"ldt-toolkit-cli/internal/screens/machine_learning/tools/prompting"
+	"long-toolkit-cli/internal/screens/machine_learning/support/schema"
+	"long-toolkit-cli/internal/screens/machine_learning/tools/prompting"
 )
 
 func PromptTechniqueSelection(title string, techniques []schema.Technique) (schema.Technique, error) {

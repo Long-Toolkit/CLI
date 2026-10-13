@@ -7,9 +7,9 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/model"
-	"ldt-toolkit-cli/internal/shared/theme"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/model"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 const (
@@ -86,9 +86,10 @@ func (s Screen) Render(width int, heading string) string {
 	}
 
 	intro := theme.App.TextStyle().Render(
-		"The LDT-Toolkit supports you in exploring\n" +
-			"(1) a new longitudinal data study and\n" +
-			"(2) reproducing other studies via reproducibility presets.",
+		"Long-Toolkit is a hub of toolkits for longitudinal data,\n" +
+			"from preparation and preprocessing to modelling and\n" +
+			"explainability. Its benchmarks test whether machine\n" +
+			"learning is worth it.",
 	)
 	intro2 := theme.App.MutedTextStyle().Render("Use tabs for stage navigation, or run a command directly from the command palette (:).")
 

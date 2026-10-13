@@ -3,8 +3,8 @@ package ui
 import (
 	"strings"
 
-	"ldt-toolkit-cli/internal/screens/data_preprocessing/support/schema"
-	"ldt-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/screens/data_preprocessing/support/schema"
+	"long-toolkit-cli/internal/shared/components"
 )
 
 func PrintTechniqueTable(techniques []schema.Technique) {

@@ -47,7 +47,7 @@ func PromptNumericParameter(config NumericParameterPromptConfig) (any, error) {
 	defaultValue, hasDefault := parseNumericDefault(config.Default)
 	if !config.Required && !hasDefault {
 		shouldSet := false
-		form := NewLDTForm(
+		form := NewToolkitForm(
 			huh.NewGroup(
 				huh.NewConfirm().
 					Title(fmt.Sprintf("Set %s?", name)).

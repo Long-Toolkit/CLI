@@ -6,25 +6,8 @@ import (
 
 func Heading(path []string) string {
 	canonical, handled := CanonicalPath(path)
-	if !handled || len(canonical) == 0 {
+	if !handled || len(canonical) <= 1 {
 		return "Machine Learning"
-	}
-
-	switch {
-	case len(canonical) == 1:
-		return "Machine Learning"
-	case len(canonical) == 2 && canonical[1] == "tools":
-		return "Machine Learning / Tools"
-	case len(canonical) == 2 && canonical[1] == "presets":
-		return "Machine Learning / Presets"
-	case len(canonical) >= 3 && canonical[1] == "presets":
-		if preset, ok := PresetByID(canonical[2]); ok {
-			name := strings.TrimSpace(preset.Name)
-			if name != "" {
-				return name
-			}
-		}
-		return strings.TrimSpace(canonical[2])
 	}
 
 	if tool, ok := ToolFromPath(canonical); ok {
@@ -48,40 +31,20 @@ func CanonicalPath(path []string) ([]string, bool) {
 		return nil, false
 	}
 
-	canonical := make([]string, 0, len(path)+1)
+	canonical := make([]string, 0, len(path))
 	canonical = append(canonical, "machine_learning")
 
 	for _, token := range path[1:] {
 		tokenKey := canonicalToken(token)
-		switch tokenKey {
-		case "tools":
-			canonical = append(canonical, "tools")
-		case "presets", "presets_reproducibility":
-			canonical = append(canonical, "presets")
-		default:
-			if toolID, ok := canonicalToolID(tokenKey); ok {
-				if len(canonical) == 1 || canonical[len(canonical)-1] != "tools" {
-					canonical = append(canonical, "tools")
-				}
-				canonical = append(canonical, toolID)
-				continue
-			}
-			if listCommand, ok := canonicalToolListCommand(tokenKey); ok {
-				if len(canonical) == 1 || canonical[len(canonical)-1] != "tools" {
-					canonical = append(canonical, "tools")
-				}
-				canonical = append(canonical, listCommand)
-				continue
-			}
-			if presetID, ok := canonicalPresetID(tokenKey); ok {
-				if len(canonical) == 1 || canonical[len(canonical)-1] != "presets" {
-					canonical = append(canonical, "presets")
-				}
-				canonical = append(canonical, presetID)
-				continue
-			}
-			canonical = append(canonical, token)
+		if toolID, ok := canonicalToolID(tokenKey); ok {
+			canonical = append(canonical, toolID)
+			continue
 		}
+		if listCommand, ok := canonicalToolListCommand(tokenKey); ok {
+			canonical = append(canonical, listCommand)
+			continue
+		}
+		canonical = append(canonical, token)
 	}
 
 	return canonical, true
@@ -130,19 +93,6 @@ func canonicalToolListCommand(token string) (string, bool) {
 		}
 		if canonicalToken(tool.ListCommand) == token {
 			return tool.ListCommand, true
-		}
-	}
-	return "", false
-}
-
-func canonicalPresetID(token string) (string, bool) {
-	presets, err := presetsForDisplay()
-	if err != nil {
-		return "", false
-	}
-	for _, preset := range presets {
-		if canonicalToken(preset.ID) == token {
-			return preset.ID, true
 		}
 	}
 	return "", false

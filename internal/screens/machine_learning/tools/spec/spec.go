@@ -3,7 +3,7 @@ package spec
 import (
 	"strings"
 
-	"ldt-toolkit-cli/internal/screens/machine_learning/support/schema"
+	"long-toolkit-cli/internal/screens/machine_learning/support/schema"
 )
 
 type Tool struct {

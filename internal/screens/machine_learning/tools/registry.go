@@ -3,13 +3,12 @@ package tools
 import (
 	"strings"
 
-	benchstandardandlongitudinalml "ldt-toolkit-cli/internal/screens/machine_learning/tools/bench_standard_and_longitudinal_ml"
-	benchmarklongitudinalml "ldt-toolkit-cli/internal/screens/machine_learning/tools/benchmark_longitudinal_ml"
-	benchmarkstandardml "ldt-toolkit-cli/internal/screens/machine_learning/tools/benchmark_standard_ml"
-	longitudinalmachinelearning "ldt-toolkit-cli/internal/screens/machine_learning/tools/longitudinal_machine_learning"
-	"ldt-toolkit-cli/internal/screens/machine_learning/tools/shap_analysis"
-	"ldt-toolkit-cli/internal/screens/machine_learning/tools/spec"
-	standardmachinelearning "ldt-toolkit-cli/internal/screens/machine_learning/tools/standard_machine_learning"
+	benchstandardandlongitudinalml "long-toolkit-cli/internal/screens/machine_learning/tools/bench_standard_and_longitudinal_ml"
+	benchmarklongitudinalml "long-toolkit-cli/internal/screens/machine_learning/tools/benchmark_longitudinal_ml"
+	benchmarkstandardml "long-toolkit-cli/internal/screens/machine_learning/tools/benchmark_standard_ml"
+	longitudinalmachinelearning "long-toolkit-cli/internal/screens/machine_learning/tools/longitudinal_machine_learning"
+	"long-toolkit-cli/internal/screens/machine_learning/tools/spec"
+	standardmachinelearning "long-toolkit-cli/internal/screens/machine_learning/tools/standard_machine_learning"
 )
 
 type Tool = spec.Tool
@@ -22,7 +21,6 @@ var builders = map[string]Builder{
 	"benchmark_longitudinal_ml":          benchmarklongitudinalml.Build,
 	"benchmark_standard_ml":              benchmarkstandardml.Build,
 	"longitudinal_machine_learning":      longitudinalmachinelearning.Build,
-	"shap_analysis":                      shapanalysis.Build,
 	"standard_machine_learning":          standardmachinelearning.Build,
 }
 

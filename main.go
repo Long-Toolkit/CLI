@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	app "ldt-toolkit-cli/internal"
+	app "long-toolkit-cli/internal"
 )
 
 func main() {

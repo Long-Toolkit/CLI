@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"ldt-toolkit-cli/internal/shared/model"
+	"long-toolkit-cli/internal/shared/model"
 )
 
 const defaultHelpUvBinary = "uv"
@@ -42,7 +42,7 @@ func NewHelpLoader(config HelpLoaderConfig) *HelpLoader {
 	}
 	cfg.EntryPoint = strings.TrimSpace(cfg.EntryPoint)
 	if cfg.EntryPoint == "" {
-		cfg.EntryPoint = "ldt-toolkit"
+		cfg.EntryPoint = "long-toolkit"
 	}
 	if len(cfg.Environment) == 0 {
 		cfg.Environment = os.Environ()

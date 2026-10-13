@@ -9,19 +9,25 @@ import (
 	"strconv"
 	"strings"
 
-	toolkitconfig "ldt-toolkit-cli/config"
-	"ldt-toolkit-cli/internal/shared/common"
-	"ldt-toolkit-cli/internal/shared/model"
+	toolkitconfig "long-toolkit-cli/config"
+	"long-toolkit-cli/internal/shared/common"
+	"long-toolkit-cli/internal/shared/model"
 )
 
 const (
-	homeConfigEnvVar      = "LDT_HOME_CONFIG"
+	homeConfigEnvVar      = "LONG_TOOLKIT_HOME_CONFIG"
 	defaultHomeConfigPath = "config/home.json"
 )
 
 type LabelledEntry struct {
 	Label string `json:"label"`
 	Text  string `json:"text"`
+}
+
+type Motivation struct {
+	Quote       string `json:"quote"`
+	Attribution string `json:"attribution"`
+	ReadMore    string `json:"read_more"`
 }
 
 type TutorialStep struct {
@@ -32,10 +38,10 @@ type TutorialStep struct {
 }
 
 type Config struct {
-	Actions      []model.CommandDef `json:"actions"`
-	Authors      []LabelledEntry    `json:"authors"`
-	Inspirations []LabelledEntry    `json:"inspirations"`
-	Tutorial     []TutorialStep     `json:"tutorial_steps"`
+	Actions    []model.CommandDef `json:"actions"`
+	Authors    []LabelledEntry    `json:"authors"`
+	Motivation Motivation         `json:"motivation"`
+	Tutorial   []TutorialStep     `json:"tutorial_steps"`
 }
 
 var currentHomeConfig = defaultHomeConfig()
@@ -71,69 +77,81 @@ func defaultHomeConfig() Config {
 			{
 				Name:        "list_authors",
 				DisplayName: "List authors",
-				Description: "List first, second, et al authors.",
+				Description: "List the authors of the toolkit.",
 			},
 			{
-				Name:        "list_inspiration_from",
-				DisplayName: "List inspiration from",
-				Description: "List all papers inspiring this toolkit.",
+				Name:        "motivation",
+				DisplayName: "Motivation",
+				Description: "Why we built Long-Toolkit.",
 			},
 		},
 		Authors: []LabelledEntry{
 			{
 				Label: "1",
-				Text: "Simon Provost (Ph.D student University of Kent - " +
+				Text: "Simon Provost (Postdoctoral Researcher, McGill University, MEDomicsLab; " +
 					"https://orcid.org/0000-0001-8402-5464)",
 			},
 			{
 				Label: "2",
-				Text: "Bianca Branco (Ph.D student University of Edinburgh - " +
+				Text: "Bianca Branco (PhD student, University of Edinburgh; " +
 					"https://orcid.org/0000-0003-0031-6200)",
 			},
 			{
 				Label: "3",
-				Text: "Alex Kwong (Wellcome Senior Research Fellow University of Edinburgh - " +
+				Text:  "Honghui Chen",
+			},
+			{
+				Label: "4",
+				Text:  "Isaac Tassella",
+			},
+			{
+				Label: "5",
+				Text: "Alex Kwong (Wellcome Senior Research Fellow, University of Edinburgh; " +
 					"https://orcid.org/0000-0003-1953-2771)",
 			},
 		},
-		Inspirations: []LabelledEntry{
-			{
-				Label: "1",
-				Text: "Prediction of the trajectories of depressive symptoms among children " +
-					"in the adolescent brain cognitive development (ABCD) study using " +
-					"machine learning approach - https://doi.org/10.1016/j.jad.2022.05.020",
-			},
-			{
-				Label: "2",
-				Text: "Prediction models for longitudinal trajectories of depression and anxiety: " +
-					"a systematic review - https://doi.org/10.1016/j.jad.2026.121255",
-			},
+		Motivation: Motivation{
+			Quote: "Longitudinal studies invest heavily in collecting and curating their data, yet machine " +
+				"learning is either left aside or applied as if every wave were an unrelated feature. We " +
+				"built Long-Toolkit so that experts of longitudinal studies can get their data ready, and " +
+				"measure fairly whether conventional or longitudinal machine learning is worth it.",
+			Attribution: "Simon Provost (McGill University) & Dr Alex Kwong, LEAP lab (University of Edinburgh)",
+			ReadMore:    "https://long-toolkit.readthedocs.io/en/latest/getting-started/#motivation",
 		},
 		Tutorial: []TutorialStep{
 			{
-				Title: "Step 1 - Stage A (Data Preparation)",
-				Goal: "(1) Offer data preparation utilities to convert raw cohort data into " +
-					"formats needed downstream. (2) Offer reproducibility presets for available " +
-					"longitudinal studies.",
+				Title: "Step 1: Stage A (Data Preparation)",
+				Goal: "Use the data preparation tools to generate synthetic longitudinal data with controlled " +
+					"temporal patterns, or to convert cohort files between CSV, Parquet and Stata formats.",
 				Outcome: "Output: prepared longitudinal dataset(s) ready for preprocessing.",
-				Recommendation: "If no built-in tool/preset fits your study, write your own script " +
+				Recommendation: "When no built-in tool fits a dataset, write a custom script " +
 					"and consider opening a pull request.",
 			},
 			{
-				Title: "Step 2 - Stage B (Data Preprocessing)",
-				Goal: "(1) Offer preprocessing utilities to build trajectories, merge data, and " +
-					"make datasets ML-ready. (2) Offer reproducibility presets for available studies.",
-				Outcome: "Output: trajectory-informed and preprocessing-validated dataset(s).",
-				Recommendation: "If no built-in tool/preset fits your study, implement your own workflow " +
+				Title: "Step 2: Stage B (Data Preprocessing)",
+				Goal: "Use the data preprocessing tools to clean, impute, harmonise and reshape longitudinal " +
+					"datasets so they are ready for modelling.",
+				Outcome: "Output: quality-checked dataset(s) ready for modelling.",
+				Recommendation: "When no built-in tool fits a dataset, implement a custom workflow " +
 					"and consider opening a pull request.",
 			},
 			{
-				Title: "Step 3 - Stage C (Machine Learning)",
-				Goal: "(1) Offer machine-learning utilities for longitudinal and standard estimators. " +
-					"(2) Offer reproducibility presets to rerun ML pipelines from available studies.",
-				Outcome: "Output: model artefacts and evaluation summaries ready to share.",
-				Recommendation: "If no built-in tool/preset fits your study, run your own ML pipeline " +
-					"and consider opening a pull request.",
+				Title: "Step 3: Stage C (Machine Learning)",
+				Goal: "Use the benchmarking tools to compare standard and longitudinal machine learning under " +
+					"one shared protocol, and establish whether machine learning, and/or longitudinal machine " +
+					"learning, is worth it on a dataset compared with a statistical baseline. Training " +
+					"tools sit alongside them.",
+				Outcome: "Output: saved models, benchmark rankings and evaluation summaries ready to explain or share.",
+				Recommendation: "When no built-in tool fits a dataset, run a custom machine learning pipeline and " +
+					"consider opening a pull request.",
+			},
+			{
+				Title: "Step 4: Stage D (Explainability)",
+				Goal: "Use the SHAP analysis tool to explain a saved model, e.g., the best estimator of a " +
+					"benchmark, and see which features drive its predictions.",
+				Outcome: "Output: SHAP values, feature-importance figures and report artefacts ready to share.",
+				Recommendation: "When no built-in tool fits a model, run a custom explainability analysis and " +
+					"consider opening a pull request.",
 			},
 		},
 	}
@@ -224,8 +242,8 @@ func mergeHomeConfig(base Config, override Config) Config {
 	if len(override.Authors) > 0 {
 		merged.Authors = sanitiseLabelledEntries(override.Authors)
 	}
-	if len(override.Inspirations) > 0 {
-		merged.Inspirations = sanitiseLabelledEntries(override.Inspirations)
+	if motivation := sanitiseMotivation(override.Motivation); motivation.Quote != "" {
+		merged.Motivation = motivation
 	}
 	if len(override.Tutorial) > 0 {
 		merged.Tutorial = sanitiseTutorialSteps(override.Tutorial)
@@ -317,6 +335,14 @@ func sanitiseLabelledEntries(entries []LabelledEntry) []LabelledEntry {
 		})
 	}
 	return cleaned
+}
+
+func sanitiseMotivation(motivation Motivation) Motivation {
+	return Motivation{
+		Quote:       strings.TrimSpace(motivation.Quote),
+		Attribution: strings.TrimSpace(motivation.Attribution),
+		ReadMore:    strings.TrimSpace(motivation.ReadMore),
+	}
 }
 
 func sanitiseTutorialSteps(steps []TutorialStep) []TutorialStep {

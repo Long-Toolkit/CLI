@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"ldt-toolkit-cli/internal/screens/data_preparation/support/schema"
-	"ldt-toolkit-cli/internal/screens/data_preparation/support/ui"
-	"ldt-toolkit-cli/internal/shared/components"
-	"ldt-toolkit-cli/internal/shared/theme"
+	"long-toolkit-cli/internal/screens/data_preparation/support/schema"
+	"long-toolkit-cli/internal/screens/data_preparation/support/ui"
+	"long-toolkit-cli/internal/shared/components"
+	"long-toolkit-cli/internal/shared/theme"
 )
 
 func Run(def Definition, listOnly bool, runtime Runtime) error {
