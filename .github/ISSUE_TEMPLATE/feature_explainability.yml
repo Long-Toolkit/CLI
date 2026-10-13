@@ -1,0 +1,66 @@
+name: "Feature Request: Explainability Screen"
+description: Propose a CLI feature for explainability tools or interaction flow.
+title: "[FEAT][EXPLAINABILITY] <title>"
+labels:
+  - feature
+  - stage:explainability
+assignees:
+  - simonprovost
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for Explainability screen requests:
+        SHAP analysis flow, model and dataset selection, and explanation outputs.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I reviewed current entries in `config/explainability.json`.
+          required: true
+        - label: I can describe the expected outcome and generated artifacts.
+          required: true
+  - type: dropdown
+    id: request-type
+    attributes:
+      label: Request type
+      options:
+        - Add new explainability tool entry
+        - Improve prompts/parameter collection
+        - Improve SHAP analysis flow UX
+        - Improve result/figure rendering
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What user objective should this screen change support?
+      placeholder: Describe the model to explain and the expected user outcome.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed CLI flow
+      description: Describe stage path, prompts, and expected execution outputs.
+      placeholder: Include run path and output artifacts expected by the user.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation criteria
+      description: How should maintainers verify this is done correctly?
+      placeholder: Include expected behavior, files, and terminal feedback.
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints or risks
+      description: Optional runtime/dependency/compliance constraints.
+      placeholder: Optional.
+    validations:
+      required: false

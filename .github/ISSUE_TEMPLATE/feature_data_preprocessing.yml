@@ -1,5 +1,5 @@
 name: "Feature Request: Data Preprocessing Screen"
-description: Propose a CLI feature for data preprocessing tools, presets, or interaction flow.
+description: Propose a CLI feature for data preprocessing tools or interaction flow.
 title: "[FEAT][DATA_PREPROCESSING] <title>"
 labels:
   - feature
@@ -17,7 +17,7 @@ body:
     attributes:
       label: Before submitting
       options:
-        - label: I checked current tool and preset entries in `config/data_preprocessing.json`.
+        - label: I checked current tool entries in `config/data_preprocessing.json`.
           required: true
         - label: I checked if a similar capability already exists in another stage.
           required: true
@@ -28,7 +28,6 @@ body:
       options:
         - Add new preprocessing tool entry
         - Update existing tool prompts/parameter UX
-        - Add or update preprocessing preset entry
         - Improve stage navigation or run hints
         - Improve bridge execution and result rendering
     validations:

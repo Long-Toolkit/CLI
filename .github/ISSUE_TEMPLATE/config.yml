@@ -1,8 +1,11 @@
 blank_issues_enabled: false
 contact_links:
-  - name: LDT-Toolkit (main end-user repository)
-    url: https://github.com/Longitudinal-Depression-Toolkit/ldt-toolkit
+  - name: Long-Toolkit (main end-user repository)
+    url: https://github.com/Long-Toolkit/long-toolkit
     about: For toolkit-level usage questions and full project documentation.
+  - name: Long-Toolkit documentation
+    url: https://long-toolkit.readthedocs.io/en/latest/
+    about: User guide and API reference for the Python toolkit.
   - name: LEAP Group
     url: https://life-epi-psych.github.io
     about: Research group homepage.

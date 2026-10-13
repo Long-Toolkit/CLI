@@ -1,5 +1,5 @@
 name: "Feature Request: Data Preparation Screen"
-description: Propose a CLI feature for data preparation tools, presets, or screen flow.
+description: Propose a CLI feature for data preparation tools or screen flow.
 title: "[FEAT][DATA_PREPARATION] <title>"
 labels:
   - feature
@@ -11,7 +11,7 @@ body:
     attributes:
       value: |
         Use this form for Data Preparation screen requests:
-        tool surfacing, preset integration, prompt flow, and stage-level navigation.
+        tool surfacing, prompt flow, and stage-level navigation.
   - type: checkboxes
     id: checks
     attributes:
@@ -27,7 +27,6 @@ body:
       label: Request type
       options:
         - Add new Data Preparation tool entry
-        - Add or update preset entry
         - Improve prompting/parameter capture flow
         - Improve stage navigation or summaries
         - Improve bridge execution or output rendering

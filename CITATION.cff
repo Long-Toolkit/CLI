@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this repository, please cite it as below."
-title: "Longitudinal Depression Trajectories CLI: Interactive No-Code Terminal Interface"
+title: "Long-Toolkit CLI: Interactive No-Code Terminal Interface"
 type: software
 version: "0.0.8"
 year: 2026
@@ -11,6 +11,10 @@ authors:
   - family-names: Branco
     given-names: Bianca
     email: s2714881@sms.ed.ac.uk
+  - family-names: Chen
+    given-names: Honghui
+  - family-names: Tassella
+    given-names: Isaac
   - family-names: Kwong
     given-names: Alex
     email: akwong@ed.ac.uk

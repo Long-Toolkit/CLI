@@ -1,5 +1,5 @@
 name: "Bug Report"
-description: Report a bug in the ldt CLI runtime, navigation flow, or command execution bridge.
+description: Report a bug in the long-toolkit CLI runtime, navigation flow or command execution bridge.
 title: "[BUG] <title>"
 labels:
   - bug
@@ -15,7 +15,7 @@ body:
     attributes:
       label: Before submitting
       options:
-        - label: I reproduced this with the latest `ldt` binary from this repository.
+        - label: I reproduced this with the latest `long-toolkit` binary from this repository.
           required: true
         - label: I checked existing open issues first.
           required: true
@@ -35,7 +35,7 @@ body:
       label: Reproduction steps
       description: Include exact keys/actions and command path when relevant.
       value: |
-        1. Launch `ldt`
+        1. Launch `long-toolkit`
         2. Navigate to ...
         3. Press ...
         4. Observe ...
@@ -66,6 +66,7 @@ body:
         - Data Preparation
         - Data Preprocessing
         - Machine Learning
+        - Explainability
         - Command Palette
         - Bridge execution
         - Other

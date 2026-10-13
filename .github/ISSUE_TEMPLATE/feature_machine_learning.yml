@@ -1,5 +1,5 @@
 name: "Feature Request: Machine Learning Screen"
-description: Propose a CLI feature for machine learning tools, presets, or interaction flow.
+description: Propose a CLI feature for machine learning tools or interaction flow.
 title: "[FEAT][MACHINE_LEARNING] <title>"
 labels:
   - feature
@@ -11,7 +11,7 @@ body:
     attributes:
       value: |
         Use this form for Machine Learning screen requests:
-        estimator workflow UX, benchmark flow, explainability tool flow, and preset surfacing.
+        estimator workflow UX and benchmark flow.
   - type: checkboxes
     id: checks
     attributes:
@@ -28,7 +28,6 @@ body:
       options:
         - Add new machine-learning tool entry
         - Improve prompts/parameter collection
-        - Add or update machine-learning preset entry
         - Improve benchmark flow UX
         - Improve result/diagnostic rendering
     validations:

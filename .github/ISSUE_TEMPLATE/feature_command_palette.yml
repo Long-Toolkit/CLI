@@ -48,8 +48,8 @@ body:
       label: Input/output examples
       description: Provide exact text inputs and expected resolved commands.
       placeholder: |
-        Input: "build traj"
-        Expected: data_preprocessing tools build_trajectories
+        Input: "bench long"
+        Expected: machine_learning benchmark_longitudinal_ml
     validations:
       required: true
   - type: textarea

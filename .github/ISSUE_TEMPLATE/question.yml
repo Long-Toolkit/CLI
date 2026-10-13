@@ -10,7 +10,7 @@ body:
     attributes:
       value: |
         Ask a CLI-specific question here.
-        For end-user toolkit workflows, start from `ldt-toolkit` docs and then link back here if the issue is CLI-specific.
+        For end-user toolkit workflows, start from the `long-toolkit` documentation and then link back here if the issue is CLI-specific.
   - type: checkboxes
     id: checks
     attributes:
@@ -28,7 +28,7 @@ body:
         - Installation and setup
         - Interactive navigation
         - Command palette
-        - Stage tools and presets
+        - Stage tools
         - Release and package managers
         - Contributing
         - Other
