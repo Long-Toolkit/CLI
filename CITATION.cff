@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this repository, please cite it as below."
 title: "Long-Toolkit CLI: Interactive No-Code Terminal Interface"
 type: software
-version: "0.0.8"
+version: "0.0.9"
 year: 2026
 authors:
   - family-names: Provost
