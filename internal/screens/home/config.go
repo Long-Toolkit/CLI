@@ -88,8 +88,8 @@ func defaultHomeConfig() Config {
 		Authors: []LabelledEntry{
 			{
 				Label: "1",
-				Text: "Simon Provost (Postdoctoral Researcher, McGill University, MEDomicsLab; " +
-					"https://orcid.org/0000-0001-8402-5464)",
+				Text: "Simon Provost, Postdoctoral Research @ McGill University (MEDomicsLab); " +
+					"https://orcid.org/0000-0001-8402-5464",
 			},
 			{
 				Label: "2",
@@ -115,7 +115,7 @@ func defaultHomeConfig() Config {
 				"learning is either left aside or applied as if every wave were an unrelated feature. We " +
 				"built Long-Toolkit so that experts of longitudinal studies can get their data ready, and " +
 				"measure fairly whether conventional or longitudinal machine learning is worth it.",
-			Attribution: "Simon Provost (McGill University) & Dr Alex Kwong, LEAP lab (University of Edinburgh)",
+			Attribution: "Simon Provost, Postdoctoral Research @ McGill University (MEDomicsLab) & Dr Alex Kwong, LEAP lab (University of Edinburgh)",
 			ReadMore:    "https://long-toolkit.readthedocs.io/en/latest/getting-started/#motivation",
 		},
 		Tutorial: []TutorialStep{
