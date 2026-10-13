@@ -1255,7 +1255,7 @@ func resolveBridgeRuntime() (bridgeRuntime, error) {
 
 	if !uvExists && !pythonExists {
 		return bridgeRuntime{}, fmt.Errorf(
-			"`uv` or `python` was not found on PATH. %s",
+			"`uv` or a Python 3.10 interpreter was not found on PATH. %s",
 			installationHelpHint,
 		)
 	}
@@ -1353,9 +1353,9 @@ func verifyPythonBridge(runtime bridgeRuntime) error {
 }
 
 func findPythonBinary() (string, bool) {
-	for _, candidate := range []string{"python3", "python"} {
+	for _, candidate := range []string{"python3.10", "python3", "python"} {
 		path, err := exec.LookPath(candidate)
-		if err == nil {
+		if err == nil && exec.Command(path, "-c", "import sys; sys.exit(sys.version_info[:2] != (3, 10))").Run() == nil {
 			return path, true
 		}
 	}
@@ -1364,7 +1364,7 @@ func findPythonBinary() (string, bool) {
 
 func (runtime bridgeRuntime) pythonCommand(args ...string) *exec.Cmd {
 	if runtime.useUv {
-		commandArgs := append([]string{"run", "python"}, args...)
+		commandArgs := append([]string{"run", "--python", "3.10", "python"}, args...)
 		return exec.Command(runtime.uvBinary, commandArgs...)
 	}
 	return exec.Command(runtime.pythonBinary, args...)
@@ -1372,7 +1372,7 @@ func (runtime bridgeRuntime) pythonCommand(args ...string) *exec.Cmd {
 
 func (runtime bridgeRuntime) bridgeCommand(args ...string) *exec.Cmd {
 	if runtime.useUv && runtime.useBridgeCmd {
-		commandArgs := append([]string{"run", bridgeRunnerCommand}, args...)
+		commandArgs := append([]string{"run", "--python", "3.10", bridgeRunnerCommand}, args...)
 		return exec.Command(runtime.uvBinary, commandArgs...)
 	}
 	commandArgs := append([]string{"-m", bridgeRunnerModule}, args...)
