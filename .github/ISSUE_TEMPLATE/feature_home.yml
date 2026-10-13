@@ -11,7 +11,7 @@ body:
     attributes:
       value: |
         Use this form for Home screen changes:
-        tutorial flow, action cards, intro messaging, authors/inspiration panels, and navigation prompts.
+        tutorial flow, action cards, intro messaging, authors/motivation panels, and navigation prompts.
   - type: checkboxes
     id: checks
     attributes:
@@ -29,7 +29,7 @@ body:
         - New Home action
         - Tutorial step/content update
         - Intro/UX text update
-        - Authors or inspirations content update
+        - Authors or motivation content update
         - Navigation hint/layout update
     validations:
       required: true
